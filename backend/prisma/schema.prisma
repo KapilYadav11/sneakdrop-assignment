@@ -1,0 +1,60 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Stock {
+  id        Int @id
+  total     Int
+  available Int
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  holds    Hold[]
+  waitlist WaitlistEntry[]
+}
+
+
+model Hold {
+  id         Int       @id @default(autoincrement())
+  userId     Int
+  status     String    @default("ACTIVE")
+  expiresAt  DateTime
+  createdAt  DateTime  @default(now())
+  paidAt     DateTime?
+  fromQueue  Boolean   @default(false)
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, status])
+  @@index([status, expiresAt])
+}
+
+model WaitlistEntry {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  status    String   @default("WAITING")
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([status, id])
+}
+
+model WebhookEvent {
+  eventId    String   @id
+  holdId     Int
+  type       String
+  outcome    String
+  receivedAt DateTime @default(now())
+}
