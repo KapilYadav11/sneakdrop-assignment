@@ -1,39 +1,19 @@
-# Dependencies
+# dependencies
 node_modules/
-vendor/
-.venv/
-venv/
-__pycache__/
-*.pyc
 
-# Build output
+# build output
 dist/
-build/
-out/
 .next/
-target/
-bin/
-obj/
 
-# Environment and secrets
-.env
-.env.*
-!.env.example
-
-# Databases and local data
+# SQLite database: har reviewer apni khud bana lega (npm run db:push)
 *.db
-*.sqlite
-*.sqlite3
+*.db-journal
 
-# Logs
-*.log
-logs/
+# secrets aur local config
+.env
+.env.local
 
-# OS files
+# OS / editor
 .DS_Store
 Thumbs.db
-
-# Editor files
 .vscode/
-.idea/
-*.swp
